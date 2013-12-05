@@ -1,0 +1,41 @@
+			var a = jsConsole.readFloat("#tb-a");			
+			var b = jsConsole.readFloat("#tb-b");			
+			var c = jsConsole.readFloat("#tb-c");
+			var D;
+			var dm;
+			var x;
+			var x1;
+			var x2;
+			
+			if (a == 0)
+				{
+				if (b == 0)
+					{
+					if (c == 0)
+						jsConsole.writeLine("Every X is a solution");
+					else
+						jsConsole.writeLine("No solution");
+					}
+				else
+					{
+					x = (c / b);
+					jsConsole.writeLine("x = " + x);
+					}
+				}
+			else
+				{
+				D = ( (b*b) - (4* (a*c) ) );
+				if (D < 0)
+					{
+					jsConsole.writeLine("No solution, D < 0 ");
+					}
+				else
+					{
+					dm = Math.sqrt(D);
+					x1 = ( ((-b) + dm) / (2*a) );
+					x2 = ( ((-b) - dm) / (2*a) );
+					
+					jsConsole.writeLine("x1 = " + x1);
+					jsConsole.writeLine("x2 = " + x2);
+					}
+				}
