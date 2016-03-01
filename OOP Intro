@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+class Student
+{
+    private:
+    string firstName;
+    string familyName;
+    int facultyNumber;
+    float gradePointAverage;
+
+    public:
+
+    void setName(string first, string last)
+    {
+        firstName = first;
+        familyName = last;
+    }
+
+    void setGrade(float grade)
+    {
+        gradePointAverage = grade;
+        if(grade > 5.5)
+        {
+            cout<<"Bravo "<<firstName<<endl;
+        }
+        else if(grade < 3.0)
+        {
+            cout<<"Losho  "<<firstName<<endl;
+        }
+    }
+
+    void print()
+    {
+        cout<<firstName<<" "<<familyName<<" "<<facultyNumber<<" "<<gradePointAverage<<endl;
+    }
+
+    int hasBetterGradeThan(Student other)
+    {
+        return gradePointAverage > other.gradePointAverage;
+    }
+
+    //CONSTRUCTORS
+    Student()
+    {
+        firstName = "unknown";
+        familyName = "unknown";
+        facultyNumber = 0;
+        gradePointAverage = 2;
+    }
+
+    Student(string first, string last, int fn, float grade)
+    {
+        firstName = first;
+        familyName = last;
+        facultyNumber = fn;
+        gradePointAverage = grade;
+    }
+};
+
+int main()
+{
+    Student Gosho;
+    Student Pesho("Petar","Georgiev",12345,4.50);
+    Gosho.setName("Georgi","Kadrev");
+    Gosho.setGrade(5.75);
+    //Gosho.firstName = "Gosho";
+    //Gosho.familyName = "Kadrev";
+    //Gosho.facultyNumber = 0;
+    //Gosho.gradePointAverage = 6.0;
+    Gosho.print();
+    Pesho.print();
+
+    cout<<Gosho.hasBetterGradeThan(Pesho)<<endl;
+    cout<<Pesho.hasBetterGradeThan(Gosho)<<endl;
+
+    return 0;
+};
