@@ -1,0 +1,74 @@
+#include <iostream>
+
+using namespace std;
+
+class Student
+{
+    public:
+    string first;
+    string last;
+    int fn;
+    int numGrades;
+    float *grades;
+
+    Student(string f, string l, int facNum, int n)
+    {
+        cout<<"Constructor called for "<<f<<" "<<l<<endl;
+        first = f;
+        last = l;
+        fn = facNum;
+        numGrades = n;
+        grades = new float[numGrades];
+    }
+
+    ~Student()
+    {
+        cout<<"Destructor called for "<<first<<" "<<last<<endl;
+        delete[]grades;
+    }
+
+    void enterGrades()
+    {
+        for(int i = 0; i<numGrades; i++)
+        {
+            cout<<"Grades #"<<i+1<<" of "<<first<<" "<<last<<" ("<<fn<<" ): ";
+            cin>>grades[i];
+        }
+    }
+
+    float gradePointAverage()
+    {
+        float sum = 0;
+        for(int i = 0; i<numGrades; i++)
+        {
+            sum+= grades[i];
+        }
+        return sum/numGrades;
+    }
+};
+
+int main()
+{
+    Student John("John","Snow",12345, 3);
+/**<
+    if(John.fn==12345)
+    {
+        Student Jane("Jane","Doe",73982, 2);
+
+        Jane.enterGrades();
+        cout<<"Jane GPA: "<<Jane.gradePointAverage()<<endl;
+    }
+*/
+    John.enterGrades();
+    cout<<"John GPA: "<<John.gradePointAverage()<<endl;
+
+    Student Peter = John;
+    Peter.first = "Peter";
+    Peter.last = "Baelish";
+    Peter.fn = 11111;
+    Peter.enterGrades();
+    cout<<"Peter GPA: "<<Peter.gradePointAverage()<<endl;
+    cout<<"John GPA: "<<John.gradePointAverage()<<endl;
+
+    return 0;
+}
