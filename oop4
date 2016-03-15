@@ -1,0 +1,110 @@
+#include <iostream>
+
+using namespace std;
+
+class Matrix
+{
+ private:
+     int rows;
+     int cols;
+     /**< float data[100][100];  */
+    float **data;
+ public:
+     //Constructor
+    Matrix(int m, int n)
+    {
+        rows = m;
+        cols = n;
+        data = new float*[m];
+        for(int i = 0; i<m; i++)
+        {
+            data[i]=new float[n];
+        }
+    }
+
+    Matrix(const Matrix &other)
+    {
+        rows = other.rows;
+        cols = other.cols;
+        data = new float*[rows];
+        for(int i = 0; i<rows;i++)
+        {
+            data[i] = new float[cols];
+            for(int j = 0; j<cols; j++)
+            {
+                data[i][j] = other.data[i][j];
+            }
+        }
+    }
+
+    ~Matrix()
+    {
+        for(int i = 0; i<rows; i++)
+        {
+            delete[] data[i];
+        }
+        delete[] data;
+    }
+
+    void enter()
+    {
+        for (int i = 0; i<rows; i++)
+        {
+            for (int j = 0; j<cols; j++)
+            {
+                cout<<"data["<<i<<"]["<<j<<"]: ";
+                cin>>data[i][j];
+            }
+        }
+    }
+
+    void print()
+    {
+        for(int i = 0; i<rows;i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                cout<<data[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+
+    Matrix sumWith(const Matrix &other)
+    {
+        Matrix result(rows,cols);
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j<cols; j++)
+            {
+                result.data[i][j]=data[i][j]+other.data[i][j];
+            }
+        }
+        return result;
+    }
+};
+
+int main()
+{
+/**<      Matrix A(2,2);
+    A.enter();
+    cout<<"A: "<<endl;
+    A.print();
+
+    Matrix B(A);
+    B.enter();
+    cout<<"A after copy: "<<endl;
+    A.print();
+    cout<<"B: "<<endl;
+    B.print();
+*/
+    Matrix A(2,2);
+    Matrix B(2,2);
+    A.enter();
+    B.enter();
+    Matrix C = A.sumWith(B);
+    cout<<"C: "<<endl;
+    C.print();
+
+    return 0;
+}
