@@ -1,0 +1,53 @@
+#include <iostream>
+
+using namespace std;
+
+class Polygon
+{
+protected:
+    int w;
+    int h;
+
+public:
+    Polygon(int width, int height)
+    {
+        w = width;
+        h = height;
+    }
+};
+
+class Rectangle:public Polygon
+{
+    public:
+    Rectangle(int width, int height):Polygon(width,height)
+    {}
+
+    int area()
+    {
+        return w * h;
+    }
+};
+
+class Triangle:public Polygon
+{
+    public:
+    Triangle(int width, int height):Polygon(width,height)
+    {
+
+    }
+    int area()
+    {
+        return w * h / 2;
+    }
+};
+
+int main()
+{
+
+    Rectangle r(10,20);
+    cout<<r.area()<<endl;
+    Triangle t(10,20);
+    cout<<t.area()<<endl;
+
+    return 0;
+}
