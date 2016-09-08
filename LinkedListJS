@@ -1,0 +1,253 @@
+'use strict';
+
+class listNode {
+    constructor(value) {
+        this._value = value;
+        this._next = null;
+        this._previous = null;
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    set value(newValue) {
+        this._value = newValue;
+    }
+
+    get next() {
+        return this._next;
+    }
+
+    set next(nextNode) {
+        this._next = nextNode;
+    }
+
+    get previous() {
+        return this._previous;
+    }
+
+    set previous(previousNode) {
+        this._previous = previousNode;
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this._head = null;
+        this._tail = null;
+        this._length = 0;
+    }
+
+    //Properties
+    get first() {
+        return this._head;
+    }
+
+    get last() {
+        return this._tail;
+    }
+
+    get length() {
+        return this._length;
+    }
+
+    // FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory
+
+    // [Symbol.iterator]() {
+    //     let nodes = [];
+    //     let currentNode = this._head;
+    //
+    //     if(currentNode == null){
+    //         return nodes.values();
+    //     }
+    //
+    //     do{
+    //         nodes.push(currentNode);
+    //     }
+    //     while (currentNode.next != null);
+    //
+    //     return nodes.values()
+    // }
+
+
+    //Methods
+    append() {
+        for (let i = 0; i < arguments.length; i += 1) {
+
+            if (this._head === null) {
+                this._head = new listNode(arguments[i]);
+                this._length += 1;
+            }
+            else {
+                let currentNode = this._head;
+
+                while (currentNode.next != null) {
+                    currentNode = currentNode.next;
+                }
+
+                currentNode.next = new listNode(arguments[i]);
+                currentNode.next.previous = currentNode;
+                this._length += 1;
+            }
+        }
+
+        return this;
+    }
+
+    prepend() {
+
+        for (let i = arguments.length - 1; i >= 0; i -= 1) {
+
+            if (this._head === null) {
+                this._head = new listNode(arguments[i]);
+                this._length += 1;
+            }
+            else {
+                let newListNode = new listNode(arguments[i]);
+                newListNode.next = this._head;
+
+                newListNode.next.previous = newListNode;
+
+                this._head = newListNode;
+
+                this._length += 1;
+            }
+        }
+
+        return this;
+    }
+
+    insert() {
+        let currentNode = this._head;
+        let index = arguments[0];
+
+        for (let i = 0; i < index; i += 1) {
+            currentNode = currentNode.next;
+        }
+
+        let nodeAfterIndex = currentNode.next;
+
+        for (let i = 1; i < arguments.length; i += 1) {
+
+            currentNode.next = new listNode(arguments[i]);
+            currentNode.next.previous = currentNode;
+
+            currentNode = currentNode.next;
+
+            //first after appended
+            if (i == arguments.length - 1) {
+                currentNode.next = nodeAfterIndex;
+
+                nodeAfterIndex.previous = currentNode;
+            }
+
+            this._length += 1;
+        }
+
+        return this;
+    }
+
+    at() {
+        let index = arguments[0];
+        let newValue = arguments[1];
+
+        //iterate to the index
+        let currentNode = this._head;
+        for (let i = 0; i < index; i += 1) {
+            currentNode = currentNode.next;
+        }
+
+        if (newValue != null) {
+            currentNode.value = newValue;
+        }
+
+        return currentNode.value;
+    }
+
+    removeAt(index) {
+        let nodeToRemove = this._head;
+
+        for (let i = 0; i < index; i += 1) {
+            nodeToRemove = nodeToRemove.next;
+        }
+
+        nodeToRemove.previous.next = nodeToRemove.next;
+        nodeToRemove.next.previous = nodeToRemove.previous;
+
+        return nodeToRemove.value;
+    }
+
+    toString() {
+        let currentNode = this._head;
+
+        if (currentNode != null) {
+            let output = '';
+            output += currentNode.value;
+
+            while (currentNode.next != null) {
+                currentNode = currentNode.next;
+
+                output += ' -> ';
+                output += currentNode.value;
+            }
+
+            return output;
+            // console.log(output);
+        }
+
+        return this;
+    }
+
+
+}
+
+//Append test
+
+// const list = new LinkedList();
+// list.append(14, 24, 52).append("koala");
+//
+// let currentNode = list.first;
+// console.log(currentNode.value);
+// while (currentNode.next != null) {
+//     currentNode = currentNode.next;
+//     console.log(currentNode.value);
+// }
+//
+// console.log(list.length);
+
+//Prepend test
+// const list = new LinkedList();
+// list.append(4, 5, 6).prepend(1, 2, 3);
+
+//Insert test
+// const list = new LinkedList();
+// list.append(1, 4, 5).insert(1, 2, 3);
+
+//at test
+// const list = new LinkedList();
+// list.append(1, 2, 3, 4, 5, 6);
+// console.log(list.at(2)); // 3
+//
+// list.at(2, 'gosho');
+// console.log(list.at(2));
+
+//RemoveAt test
+// const list = new LinkedList();
+//
+// const removed = list.append(1, 2, 3, 4, 5).removeAt(1);
+// console.log(removed);
+
+//for-of test
+const list = new LinkedList().append(6, 7, 8).prepend(1, 2, 3, 4, 5);
+
+for(const value of list) {
+    console.log(value);
+}
+//ToString test
+// const list = new LinkedList();
+// list.append(1, 2, 3, 4, 5, 6);
+//
+// console.log(list.toString());
+
+module.exports = LinkedList;
